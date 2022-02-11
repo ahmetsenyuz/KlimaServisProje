@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Canvas Free HTML5 Responsive Template | Template Stock</title>
+
+    <!-- =============== Bootstrap Core CSS =============== -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" type="text/css">
+    <!-- =============== Google fonts =============== -->
+    <link href='https://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+	<!-- =============== fonts awesome =============== -->
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css" type="text/css">
+    <!-- =============== Plugin CSS =============== -->
+    <link rel="stylesheet" href="~/assets/css/animate.min.css" type="text/css">
+    <!-- =============== Custom CSS =============== -->
+    <link rel="stylesheet" href="~/assets/css/style.css" type="text/css">
+    <!-- =============== Owl Carousel Assets =============== -->
+    <link href="~/assets/owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="~/assets/owl-carousel/owl.theme.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @await RenderSectionAsync("Styles",false)
+</head>
+<body>
+    <!-- =============== Preloader =============== -->
+    <div id="preloader">
+        <div id="loading">
+        </div>
+    </div>
+    <partial name="Partials/_navbarPartial" />
+    <partial name="Partials/_headerPartial" />
+    <div>
+        @RenderBody()
+    </div>
+    <partial name="Partials/_footerPartial" />
+    <!-- =============== jQuery =============== -->
+    <script src="~/assets/js/jquery.js"></script>
+    <!-- =============== Bootstrap Core JavaScript =============== -->
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <!-- =============== Plugin JavaScript =============== -->
+    <script src="~/assets/js/jquery.easing.min.js"></script>
+    <script src="~/assets/js/jquery.fittext.js"></script>
+    <script src="~/assets/js/wow.min.js"></script>
+    <!-- =============== Custom Theme JavaScript =============== -->
+    <script src="~/assets/js/creative.js"></script>
+    <!-- =============== owl carousel =============== -->
+    <script src="~/assets/owl-carousel/owl.carousel.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                autoPlay: 3000,
+                items: 3,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 3]
+            });
+
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", false)
+</body>
+</html>

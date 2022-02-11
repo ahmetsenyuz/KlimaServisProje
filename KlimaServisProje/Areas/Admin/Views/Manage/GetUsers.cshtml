@@ -1,0 +1,69 @@
+﻿@model List<UsersViewModel>
+@inject IEnumerable<ApplicationRole> roles
+<!-- CONTENT -->
+<div class="page-content p-6">
+    <div class="content container">
+        <div class="row">
+            <div class="col-12">
+                <div class="example ">
+
+                    <div class="description">
+                        <div class="description-text">
+
+                            <h3>Zero Configuration</h3>
+                        </div>
+                        <div class="toggle-source-preview">
+                            <i class="icon icon-code-tags"></i>
+                            <i class="icon icon-eye-outline"></i>
+                        </div>
+                    </div>
+                    <div class="source-preview-wrapper">
+                        <div class="preview">
+                            <div class="preview-elements">
+
+                                <table id="sample-data-table" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Kullanıcı Adı</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Email</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Rol</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Düzenle</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Username</td>
+                                                <td>@item.Email</td>
+                                                <td>@item.Role</td>
+                                                <td><a class="btn btn-dark" asp-area="Admin" asp-controller="Manage" asp-action="UserDetail" asp-route-id="@item.UserId">Detay</a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CONTENT -->

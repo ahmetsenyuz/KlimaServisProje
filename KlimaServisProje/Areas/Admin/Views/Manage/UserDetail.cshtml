@@ -1,0 +1,66 @@
+﻿@model UsersViewModel
+<!-- CONTENT -->
+<div class="page-content p-6">
+    <div class="content container">
+        <div class="row">
+            <div class="col-12">
+                <div class="example ">
+
+                    <div class="description">
+                        <div class="description-text">
+
+                            <h3>Zero Configuration</h3>
+                        </div>
+                        <div class="toggle-source-preview">
+                            <i class="icon icon-code-tags"></i>
+                            <i class="icon icon-eye-outline"></i>
+                        </div>
+                    </div>
+                    <div class="source-preview-wrapper">
+                        <div class="preview">
+                            <div class="preview-elements">
+
+                                <table id="sample-data-table" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Kullanıcı Adı</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Email</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Rol</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Düzenle</span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td>@Model.Username</td>
+                                            <td>@Model.Email</td>
+                                            <td>@Model.Role</td>
+                                            <td><button>Detay</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CONTENT -->
