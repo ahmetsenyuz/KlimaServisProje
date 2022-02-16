@@ -36,6 +36,7 @@
     <!-- Main CSS -->
     <link type="text/css" rel="stylesheet" href="~/admin-assets/css/main.css">
     <!-- / STYLESHEETS -->
+    @await RenderSectionAsync("Styles",false)
 </head>
 <body class="layout layout-vertical layout-left-navigation layout-above-toolbar layout-above-footer">
     <partial name="Partials/_toolbarPartial" />
@@ -72,6 +73,8 @@
     <script type="text/javascript" src="~/admin-assets/fuse-html/fuse-html.min.js"></script>
     <!-- Main JS -->
     <script type="text/javascript" src="~/admin-assets/js/main.js"></script>
-    <!-- / JAVASCRIPT -->
+<!-- / JAVASCRIPT -->
+@await RenderSectionAsync("Scripts", false)
+
 </body>
 </html>

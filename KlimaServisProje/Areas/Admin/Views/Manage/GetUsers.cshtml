@@ -10,8 +10,9 @@
                     <div class="description">
                         <div class="description-text">
 
-                            <h3>Zero Configuration</h3>
+                            <h3>Kullanıcı Listesi</h3>
                         </div>
+                        <p class="text text-danger">@TempData["message"]</p>
                         <div class="toggle-source-preview">
                             <i class="icon icon-code-tags"></i>
                             <i class="icon icon-eye-outline"></i>
@@ -44,6 +45,11 @@
                                                     <span class="column-title">Düzenle</span>
                                                 </div>
                                             </th>
+                                            <th class="danger">
+                                                <div class="table-header">
+                                                    <span class="column-title">Sil</span>
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,8 +58,9 @@
                                             <tr>
                                                 <td>@item.Username</td>
                                                 <td>@item.Email</td>
-                                                <td>@item.Role</td>
-                                                <td><a class="btn btn-dark" asp-area="Admin" asp-controller="Manage" asp-action="UserDetail" asp-route-id="@item.UserId">Detay</a></td>
+                                                <td>@item.Role.RoleName</td>
+                                                <td><a class="btn btn-primary" asp-action="UserDetail" asp-route-id="@item.UserId">Detay</a></td>
+                                                <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.UserId">Sil</a></td>
                                             </tr>
                                         }
                                     </tbody>

@@ -1,66 +1,40 @@
 ﻿@model UsersViewModel
-<!-- CONTENT -->
+@inject RoleManager<ApplicationRole> _roleManager
+@{
+    var listt = _roleManager.Roles;
+    var roller = (List<RoleViewModel>)ViewBag.Rollist;
+}
 <div class="page-content p-6">
     <div class="content container">
         <div class="row">
             <div class="col-12">
                 <div class="example ">
-
-                    <div class="description">
-                        <div class="description-text">
-
-                            <h3>Zero Configuration</h3>
+                    <form method="post" asp-action="UserDetail" asp-controller="Manage" asp-area="Admin">
+                        <input type="hidden" asp-for="UserId"/>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="@Model.Name" asp-for="Name" readonly="readonly">
+                            <label class="form-control-label" for="formGroupExampleInput2">Ad</label> </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="@Model.Surname" asp-for="Surname" readonly="readonly">
+                            <label class="form-control-label" for="formGroupExampleInput2">Soyad</label> </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="formGroupExampleInput2" placeholder="@Model.Email" asp-for="Email" readonly="readonly">
+                            <label class="form-control-label" for="formGroupExampleInput2">Kullanıcı Maili</label> </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="@Model.Username" asp-for="Username">
+                            <label class="form-control-label" for="formGroupExampleInput2">Kullanıcı Adı</label>
                         </div>
-                        <div class="toggle-source-preview">
-                            <i class="icon icon-code-tags"></i>
-                            <i class="icon icon-eye-outline"></i>
+                        <div class="form-group">
+                            <label class="col-form-label">Rol</label>
+                            <select id="optionMenu" asp-for="roleName"
+                                    asp-items="@(new SelectList(listt, "Id", "Name"))">
+                            </select>
+                            <input type="hidden" asp-for="roleName"/>
                         </div>
-                    </div>
-                    <div class="source-preview-wrapper">
-                        <div class="preview">
-                            <div class="preview-elements">
-
-                                <table id="sample-data-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="secondary-text">
-                                                <div class="table-header">
-                                                    <span class="column-title">Kullanıcı Adı</span>
-                                                </div>
-                                            </th>
-                                            <th class="secondary-text">
-                                                <div class="table-header">
-                                                    <span class="column-title">Email</span>
-                                                </div>
-                                            </th>
-                                            <th class="secondary-text">
-                                                <div class="table-header">
-                                                    <span class="column-title">Rol</span>
-                                                </div>
-                                            </th>
-                                            <th class="secondary-text">
-                                                <div class="table-header">
-                                                    <span class="column-title">Düzenle</span>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td>@Model.Username</td>
-                                            <td>@Model.Email</td>
-                                            <td>@Model.Role</td>
-                                            <td><button>Detay</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- CONTENT -->
