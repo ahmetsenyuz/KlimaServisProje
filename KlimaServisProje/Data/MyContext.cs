@@ -9,6 +9,7 @@ namespace KlimaServisProje.Data
     {
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
         public DbSet<OperationPrice> OperationPrices { get; set; }
+        public DbSet<TroubleRegister> TroubleRegisters { get; set; }
 
     }
 }

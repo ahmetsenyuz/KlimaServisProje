@@ -39,6 +39,23 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             return View(model);
         }
 
+        public IActionResult Delete(int Id)
+        {
+
+            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == Id);
+            try
+            {
+                _context.OperationPrices.Remove(data);
+                _context.SaveChanges();
+                RedirectToAction("OperationList");
+            }
+            catch (Exception e)
+            {
+                
+            }
+            return RedirectToAction("OperationList");
+        }
+
         public IActionResult Add()
         {
             return View();
@@ -71,6 +88,38 @@ namespace KlimaServisProje.Areas.Admin.Controllers
                 TempData["message"] = "bir hata meydana geldi";
                 return View(model);
             }
+        }
+
+        public IActionResult OperationDetail(int id)
+        {
+            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == id);
+            var model = new OperationPriceViewModal()
+            {
+                operationId = data.operationId,
+                operationName = data.operationName,
+                description = data.description,
+                price = data.price
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult OperationDetail(OperationPriceViewModal model)
+        {
+            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == model.operationId);
+            data.description = model.description;
+            data.operationName = model.operationName;
+            data.price = model.price;
+            try
+            {
+                _context.OperationPrices.Update(data);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return RedirectToAction("OperationList");
         }
     }
 }

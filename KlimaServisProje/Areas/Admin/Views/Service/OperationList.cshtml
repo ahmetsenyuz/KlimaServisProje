@@ -57,8 +57,8 @@
                                             <td>@item.operationName</td>
                                             <td>@item.price</td>
                                             <td>@item.description</td>
-                                            <td><a class="btn btn-primary" asp-controller="Service" asp-action="" asp-route-id="@item.operationId">Detay</a></td>
-                                            <td><a class="btn btn-danger" asp-controller="Service" asp-action="" asp-route-id="@item.operationId">Sil</a></td>
+                                            <td><a class="btn btn-primary" asp-controller="Service" asp-action="OperationDetail" asp-route-id="@item.operationId">Detay</a></td>
+                                            <td><a class="btn btn-danger" asp-controller="Service" asp-action="Delete" asp-route-id="@item.operationId">Sil</a></td>
                                         </tr>
                                     }
                                     </tbody>
