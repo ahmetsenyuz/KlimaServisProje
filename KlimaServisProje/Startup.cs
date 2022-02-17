@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KlimaServisProje.MapperProfile;
 
 namespace KlimaServisProje
 {
@@ -56,6 +57,10 @@ namespace KlimaServisProje
             });
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
+            services.AddAutoMapper(options =>
+            {
+                options.AddProfile<ReportProfile>();
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

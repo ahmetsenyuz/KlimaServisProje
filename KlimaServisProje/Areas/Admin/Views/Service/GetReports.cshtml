@@ -1,0 +1,96 @@
+﻿@model List<TroubleRegisterViewModel>
+@{
+    var TekList = (List<TechnicianViewModel>)ViewBag.Teknisyenler;
+}
+<!-- CONTENT -->
+<div class="page-content p-6">
+    <div class="content container">
+        <div class="row">
+            <div class="col-12">
+                <div class="example ">
+
+                    <div class="description">
+                        <div class="description-text">
+
+                            <h3>Bitmemiş Raporlar</h3>
+                        </div>
+                        <div class="toggle-source-preview">
+                            <i class="icon icon-code-tags"></i>
+                            <i class="icon icon-eye-outline"></i>
+                        </div>
+                    </div>
+                    <div class="source-preview-wrapper">
+                        <div class="preview">
+                            <div class="preview-elements">
+
+                                <table id="sample-data-table" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Rapor No</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Klima Ayrıntıları</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Açıklama</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Adres</span>
+                                            </div>
+                                        </th>
+                                        <th class="danger">
+                                            <div class="table-header">
+                                                <span class="column-title">Teknisyen</span>
+                                            </div>
+                                        </th>
+                                        <th class="danger">
+                                            <div class="table-header">
+                                                <span class="column-title">Teknisyen Ata</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@($"{item.ACModel}/{item.ACType}/{item.GasType}/{item.Capacity}")</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.Address</td>
+                                            <td>
+                                                @if (@item.TechnicianId == null)
+                                                {
+                                                    <p>Teknisyen Atanmamış</p>
+                                                }
+                                                else
+                                                {
+                                                    var teknisyen = TekList.FirstOrDefault(x => x.Id == item.TechnicianId);
+                                                    <p>@teknisyen.Name</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                <td><a class="btn btn-primary" asp-controller="Service" asp-action="SetTechnician" asp-route-id="@item.Id">Ata</a></td>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CONTENT -->

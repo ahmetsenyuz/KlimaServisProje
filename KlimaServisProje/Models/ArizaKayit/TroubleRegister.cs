@@ -22,5 +22,6 @@ namespace KlimaServisProje.Models.ArizaKayit
         public string TechnicianId { get; set; }
         public virtual ApplicationUser Technician { get; set; }
         public bool TechnicianStatus { get; set; }
+        public bool Finished { get; set; }
     }
 }

@@ -10,12 +10,14 @@ namespace KlimaServisProje.ViewModels
         public string UserId { get; set; }
         public string ACModel { get; set; }
         public string ACType { get; set; }
-        public int Capacity { get; set; }
+        public int Capacity { get; set; } = 9999999;
         public string GasType { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-        public bool FeeStatus { get; set; }
+        public bool FeeStatus { get; set; } = false;
         public string TechnicianId { get; set; }
-        public bool TechnicianStatus { get; set; }
+        public bool TechnicianStatus { get; set; } = false;
+        public bool Finished { get; set; } = false;
+
     }
 }

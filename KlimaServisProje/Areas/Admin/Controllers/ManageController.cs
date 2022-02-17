@@ -15,7 +15,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
 {
     [Route("[area]/[controller]/[action]")]
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Operator,Technician")]
     public class ManageController : Controller
     {
         private readonly MyContext _myContext;
@@ -28,12 +28,13 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetUsers()
         {
             var list =(from users in _myContext.Users
@@ -68,6 +69,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             }
             return roleList;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult UserDetail(string id)
         {
             #region MyRegion
@@ -109,7 +111,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             ViewBag.Rollist = GetRoles();
             return View(data);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UserDetail(UsersViewModel model)
         {
@@ -138,7 +140,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
                 return RedirectToAction(nameof(GetUsers));
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(string id)
         {
             var model = _myContext.Users?.FirstOrDefault(x => x.Id == id);

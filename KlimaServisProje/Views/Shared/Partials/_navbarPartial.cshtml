@@ -21,16 +21,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="#about">Anasayfa</a>
+                        <a class="page-scroll" asp-controller="Home" asp-action="Index">Anasayfa</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#how-it-works">Hakkımızda</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#Screenshots">Servisler</a>
-                    </li>
                     @if (SignInManager.IsSignedIn(Context.User))
                     {
+                        <li class="page-scroll"><a asp-controller="TroubleRegister" asp-action="CreateReport">Kayıt Oluştur</a></li>
+
+                        <li class="page-scroll"><a asp-controller="TroubleRegister" asp-action="Reports">Raporlarım</a></li>
+
                         <li class="page-scroll"><a asp-controller="account" asp-action="profile">Profil</a></li>
                         <li>
                             <a asp-controller="account" asp-action="logout" class="page-scroll">Çıkış Yap</a>

@@ -1,0 +1,51 @@
+﻿@model List<TroubleRegisterViewModel>
+<h2>@User.Identity.Name Kullanıcısının Raporları</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Klima Markası</th>
+        <th scope="col">Klima Tipi</th>
+        <th scope="col">Kapasitesi(BTU)</th>
+        <th scope="col">Gaz tipi</th>
+        <th scope="col">Arıza Açıklaması</th>
+        <th scope="col">Adres</th>
+        <th scope="col">Ödenme Durumu</th>
+        <th scope="col">İşin Durumu</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        int i = 1;
+        <tr>
+            <th scope="row">@i</th>
+            <td>@item.ACModel</td>
+            <td>@item.ACType</td>
+            <td>@item.Capacity</td>
+            <td>@item.GasType</td>
+            <td>@item.Description</td>
+            <td>@item.Address</td>
+            @if (item.FeeStatus == true)
+            {
+                <td><p class="text text-success">Ödendi</p></td>
+            }
+            else
+            {
+                <td><p class="text text-danger">Ödenmedi</p></td>
+
+            }
+            @if (item.Finished == true)
+            {
+                <td><p class="text text-success">Tamamlandı</p></td>
+            }
+            else
+            {
+                <td><p class="text text-danger">Tamamlanmadı</p></td>
+
+            }
+        </tr>
+        i++;
+    }
+    </tbody>
+</table>
