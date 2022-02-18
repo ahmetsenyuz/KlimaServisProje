@@ -40,6 +40,29 @@ namespace KlimaServisProje.Migrations
                     b.ToTable("OperationPrices");
                 });
 
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TechniciansStatu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TechnicianId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TechnicianId");
+
+                    b.ToTable("TechniciansStatus");
+                });
+
             modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TroubleRegister", b =>
                 {
                     b.Property<int>("Id")
@@ -59,6 +82,9 @@ namespace KlimaServisProje.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -68,14 +94,17 @@ namespace KlimaServisProje.Migrations
                     b.Property<bool>("Finished")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("FinishedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("GasType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TechnicianId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("TechnicianStatus")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -300,6 +329,15 @@ namespace KlimaServisProje.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TechniciansStatu", b =>
+                {
+                    b.HasOne("KlimaServisProje.Models.Identity.ApplicationUser", "Technician")
+                        .WithMany()
+                        .HasForeignKey("TechnicianId");
+
+                    b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TroubleRegister", b =>

@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using AutoMapper;
 using KlimaServisProje.Data;
+using KlimaServisProje.Models;
 using KlimaServisProje.Models.ArizaKayit;
+using KlimaServisProje.Models.Identity;
+using KlimaServisProje.Services;
 using KlimaServisProje.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace KlimaServisProje.Areas.Admin.Controllers
 {
@@ -17,11 +25,16 @@ namespace KlimaServisProje.Areas.Admin.Controllers
     {
         private readonly MyContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser>_userManager;
+        private readonly IEmailSender _emailSender;
 
-        public ServiceController(MyContext context, IMapper mapper)
+        public ServiceController(MyContext context, IMapper mapper, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _context = context;
             _mapper = mapper;
+            _userManager = userManager;
+            _emailSender = emailSender;
+            GetTech();
         }
         [Authorize(Roles = "Admin")]
 
@@ -41,6 +54,32 @@ namespace KlimaServisProje.Areas.Admin.Controllers
                 model.Add(operation);
             }
             return View(model);
+        }
+        private void GetTech()
+        {
+
+            var allUsers = _userManager.Users.ToList();
+
+            var techs = new List<ApplicationUser>();
+
+            foreach (var user in allUsers)
+            {
+                if (_userManager.IsInRoleAsync(user, "Technician").Result)
+                {
+                    techs.Add(user);
+
+                    if (!_context.TechniciansStatus.Any(x => x.TechnicianId == user.Id))
+                    {
+                        _context.TechniciansStatus.Add(new TechniciansStatu()
+                        {
+                            Name = user.Name+" "+user.Surname,
+                            TechnicianId = user.Id
+                        });
+                    }
+                }
+            }
+
+            _context.SaveChanges();
         }
         [Authorize(Roles = "Admin")]
 
@@ -131,38 +170,20 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             return RedirectToAction("OperationList");
         }
 
-        public List<TechnicianViewModel> GeTechniciansWithName()
-        {
-            var rolename = _context.Roles.FirstOrDefault(x => x.Name == "Technician");
-            var role = _context.UserRoles.Where(x => x.RoleId == rolename.Id).ToList();
-            var model = new List<TechnicianViewModel>();
-            foreach (var item in role)
-            {
-                var nameSurname = _context.Users.FirstOrDefault(x => x.Id == item.UserId);
-                var data = new TechnicianViewModel()
-                {
-                    Id = item.UserId,
-                    Name = nameSurname.Name + " " + nameSurname.Surname
-                };
-                model.Add(data);
-            }
-            return model;
-        }
         public List<DropdownListItems> GetTechnicians()
         {
-            var model = GeTechniciansWithName();
+            var model = _context.TechniciansStatus.ToList();
             var list = new List<DropdownListItems>();
             foreach (var item in model.Where(x=> x.Status == false))
             {
 
                 var technicians = new DropdownListItems()
                 {
-                    Id = item.Id,
+                    Id = item.TechnicianId,
                     Name = item.Name
                 };
                 list.Add(technicians);
             }
-
             return list;
         }
         [Authorize(Roles = "Admin,Operator")]
@@ -176,7 +197,8 @@ namespace KlimaServisProje.Areas.Admin.Controllers
                 var model = _mapper.Map<TroubleRegisterViewModel>(item);
                 Reports.Add(model);
             }
-            ViewBag.Teknisyenler = GeTechniciansWithName();
+
+            ViewBag.Teknisyenler = _context.TechniciansStatus.ToList();
             return View(Reports);
         }
         [Authorize(Roles = "Admin,Operator")]
@@ -187,5 +209,41 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             ViewBag.Technician = GetTechnicians();
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SetTechnician(TroubleRegisterViewModel model)
+        {
+            var tech = _context.TechniciansStatus.FirstOrDefault(x => x.TechnicianId == model.TechnicianId);
+            tech.Status = true;
+            var register = _context.TroubleRegisters.FirstOrDefault(x => x.Id == model.Id);
+            register.TechnicianId = model.TechnicianId;
+            register.StartedDate = DateTime.UtcNow;
+            try
+            {
+                _context.TechniciansStatus.Update(tech);
+                _context.TroubleRegisters.Update(register);
+                _context.SaveChanges();
+                var user = _userManager.Users.FirstOrDefault(x => x.Id == model.TechnicianId);
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Scheme);
+
+                var emailMessage = new EmailMessage()
+                {
+                    Contacts = new string[] { user.Email },
+                    Subject = "İş atandı",
+                    Body = "Üzerinize iş kitlendi"
+                };
+                await _emailSender.SendAsync(emailMessage);
+                return RedirectToAction(nameof(GetReports));
+            }
+            catch (Exception)
+            {
+
+            }
+            return View(model);
+        }
+
     }
 }

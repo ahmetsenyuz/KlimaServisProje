@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KlimaServisProje.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20220216140219_arizafiyattablosu")]
-    partial class arizafiyattablosu
+    [Migration("20220218164153_dates")]
+    partial class dates
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,84 @@ namespace KlimaServisProje.Migrations
                     b.HasKey("operationId");
 
                     b.ToTable("OperationPrices");
+                });
+
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TechniciansStatu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TechnicianId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TechnicianId");
+
+                    b.ToTable("TechniciansStatus");
+                });
+
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TroubleRegister", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ACModel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ACType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("FeeStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FinishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GasType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TechnicianId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TechnicianId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TroubleRegisters");
                 });
 
             modelBuilder.Entity("KlimaServisProje.Models.Identity.ApplicationRole", b =>
@@ -253,6 +331,30 @@ namespace KlimaServisProje.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TechniciansStatu", b =>
+                {
+                    b.HasOne("KlimaServisProje.Models.Identity.ApplicationUser", "Technician")
+                        .WithMany()
+                        .HasForeignKey("TechnicianId");
+
+                    b.Navigation("Technician");
+                });
+
+            modelBuilder.Entity("KlimaServisProje.Models.ArizaKayit.TroubleRegister", b =>
+                {
+                    b.HasOne("KlimaServisProje.Models.Identity.ApplicationUser", "Technician")
+                        .WithMany()
+                        .HasForeignKey("TechnicianId");
+
+                    b.HasOne("KlimaServisProje.Models.Identity.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Technician");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

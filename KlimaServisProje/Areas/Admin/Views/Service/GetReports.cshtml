@@ -1,6 +1,7 @@
-﻿@model List<TroubleRegisterViewModel>
+﻿@using KlimaServisProje.Models.ArizaKayit
+@model List<TroubleRegisterViewModel>
 @{
-    var TekList = (List<TechnicianViewModel>)ViewBag.Teknisyenler;
+    var TekList = (List<TechniciansStatu>)ViewBag.Teknisyenler;
 }
 <!-- CONTENT -->
 <div class="page-content p-6">
@@ -73,7 +74,7 @@
                                                 }
                                                 else
                                                 {
-                                                    var teknisyen = TekList.FirstOrDefault(x => x.Id == item.TechnicianId);
+                                                    var teknisyen = TekList.FirstOrDefault(x => x.TechnicianId == item.TechnicianId);
                                                     <p>@teknisyen.Name</p>
                                                 }
                                             </td>

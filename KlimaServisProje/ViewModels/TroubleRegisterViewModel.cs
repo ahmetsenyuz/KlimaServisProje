@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using KlimaServisProje.Models.Identity;
 
@@ -18,6 +19,9 @@ namespace KlimaServisProje.ViewModels
         public string TechnicianId { get; set; }
         public bool TechnicianStatus { get; set; } = false;
         public bool Finished { get; set; } = false;
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime StartedDate { get; set; }
+        public DateTime FinishedDate { get; set; }
 
     }
 }

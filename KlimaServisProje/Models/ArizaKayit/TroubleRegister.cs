@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using KlimaServisProje.Models.Identity;
 
@@ -21,7 +22,9 @@ namespace KlimaServisProje.Models.ArizaKayit
         [ForeignKey("Id")]
         public string TechnicianId { get; set; }
         public virtual ApplicationUser Technician { get; set; }
-        public bool TechnicianStatus { get; set; }
         public bool Finished { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime StartedDate { get; set; }
+        public DateTime FinishedDate { get; set; }
     }
 }
