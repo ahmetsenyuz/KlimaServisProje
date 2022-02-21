@@ -2,7 +2,7 @@
 @model TroubleOperationViewModel
 @{
     var list = (List<OperationPrice>)ViewBag.Ops;
-    var oplist = (List<TroubleOperationViewModel>) ViewBag.AddedOp;
+    var oplist = (List<DropdownListInt>) ViewBag.AddedOp;
 }
 <div class="page-content p-6">
     <div class="content container">
@@ -12,12 +12,13 @@
                 {
                     foreach (var item in oplist)
                     {
-                        <p>@item.Price</p>
+                        <p>@item.Name Zaten Eklenmiş</p>
+                        list.Remove((list.FirstOrDefault(x => x.operationId == item.Id)));
                     }
                 }
-                
                 <div class="example ">
                     <form method="post" asp-action="TechRecordDetail" asp-controller="Service" asp-area="Admin">
+                        <input type="hidden" asp-for="TroubleId"/>
                         <select id="optionMenu" asp-for="OperationId"
                                 asp-items="@(new SelectList(list, "operationId", "operationName"))">
                         </select>
@@ -25,7 +26,6 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" asp-for="Price">
                             <label class="form-control-label" for="formGroupExampleInput2">Fiyat</label> </div>
-                        div class="form-group">
                         <button type="submit" class="btn btn-primary">Ekle</button>
                     </form>
                 </div>

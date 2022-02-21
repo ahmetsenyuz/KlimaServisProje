@@ -253,33 +253,51 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             var model = _mapper.Map<List<TroubleRegisterViewModel>>(data);
             return View(model);
         }
+
+        [Authorize(Roles = "Technician")]
+        public IActionResult TechRecordDetail(int Id)
+        {
+            var model = new TroubleOperationViewModel()
+            {
+                TroubleId = Id
+            };
+            ViewBag.Ops = _context.OperationPrices.ToList();
+            var FinishedOps = _context.TroubleOperations.Where(x => x.TroubleId == Id).ToList();
+            var FinishedOpsView = new List<DropdownListInt>();
+            foreach (var item in FinishedOps)
+            {
+                var op = _context.OperationPrices.FirstOrDefault(x => x.operationId == item.OperationId);
+                FinishedOpsView.Add(new DropdownListInt()
+                {
+                    Id = op.operationId,
+                    Name = op.operationName
+                });
+            }
+
+            ViewBag.AddedOp = FinishedOpsView;
+            return View(model);
+        }
         [Authorize(Roles = "Technician")]
         [HttpPost]
         public IActionResult TechRecordDetail(TroubleOperationViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            ViewBag.Ops = _context.OperationPrices.ToList();
-            ViewBag.AddedOp = _context.TroubleOperations.Where(x => x.TroubleId == model.TroubleId);
             var data = new TroubleOperation()
             {
-                OperationId = model.OperationId,
                 TroubleId = model.TroubleId,
+                OperationId = model.OperationId,
                 Price = model.Price
             };
             try
             {
                 _context.TroubleOperations.Add(data);
                 _context.SaveChanges();
+                return RedirectToAction("TechRecords");
             }
             catch (Exception e)
             {
-                
             }
             return View(model);
+
         }
 
     }
