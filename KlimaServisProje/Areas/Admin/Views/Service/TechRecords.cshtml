@@ -1,0 +1,91 @@
+﻿@model List<TroubleRegisterViewModel>
+@inject UserManager<ApplicationUser> _userManager
+<div class="page-content p-6">
+    <div class="content container">
+        <div class="row">
+            <div class="col-12">
+                <div class="example ">
+
+                    <div class="description">
+                        <div class="description-text">
+
+                            <h3>Bitmemiş Raporlar</h3>
+                        </div>
+                        <div class="toggle-source-preview">
+                            <i class="icon icon-code-tags"></i>
+                            <i class="icon icon-eye-outline"></i>
+                        </div>
+                    </div>
+                    <div class="source-preview-wrapper">
+                        <div class="preview">
+                            <div class="preview-elements">
+
+                                <table id="sample-data-table" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Rapor No</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Müşteri Adı</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Klima Ayrıntıları</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Açıklama</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Adres</span>
+                                            </div>
+                                        </th>
+                                        <th class="danger">
+                                            <div class="table-header">
+                                                <span class="column-title">İşlem Gir</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@{
+                                                    var musteri = _userManager.Users.FirstOrDefault(x => x.Id == item.UserId);
+                                                    <p>@musteri.Name @musteri.Surname</p>
+                                                }</td>
+                                            <td>@($"{item.ACModel}/{item.ACType}/{item.GasType}/{item.Capacity}")</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.Address</td>
+                                            <td>
+                                                @if (@item.Finished)
+                                                {
+                                                    <p>İşlem Tamamlanmış</p>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-primary" asp-controller="Service" asp-action="TechRecordDetail" asp-route-id="@item.Id">İşlem Gir</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

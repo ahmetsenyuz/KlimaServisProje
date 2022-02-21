@@ -145,6 +145,11 @@ namespace KlimaServisProje.Controllers
                     return LocalRedirect("/admin/service/getreports");
 
                 }
+                else if (_userManager.IsInRoleAsync(user, "Technician").Result)
+                {
+                    return LocalRedirect("/admin/service/techrecords");
+
+                }
                 else
                     return RedirectToAction("Index", "Home");
             }

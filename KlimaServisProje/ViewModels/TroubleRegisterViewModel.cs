@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using KlimaServisProje.Models.Identity;
@@ -22,6 +23,6 @@ namespace KlimaServisProje.ViewModels
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime StartedDate { get; set; }
         public DateTime FinishedDate { get; set; }
-
+        public List<TroubleOperationViewModel> Operations { get; set; }
     }
 }

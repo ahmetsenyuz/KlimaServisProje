@@ -27,13 +27,15 @@ namespace KlimaServisProje.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser>_userManager;
         private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ServiceController(MyContext context, IMapper mapper, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ServiceController(MyContext context, IMapper mapper, UserManager<ApplicationUser> userManager, IEmailSender emailSender, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _mapper = mapper;
             _userManager = userManager;
             _emailSender = emailSender;
+            _signInManager = signInManager;
             GetTech();
         }
         [Authorize(Roles = "Admin")]
@@ -241,6 +243,41 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             catch (Exception)
             {
 
+            }
+            return View(model);
+        }
+        [Authorize(Roles = "Technician")]
+        public IActionResult TechRecords()
+        {
+            var data = _context.TroubleRegisters.Where(x => x.Technician.UserName == User.Identity.Name).ToList();
+            var model = _mapper.Map<List<TroubleRegisterViewModel>>(data);
+            return View(model);
+        }
+        [Authorize(Roles = "Technician")]
+        [HttpPost]
+        public IActionResult TechRecordDetail(TroubleOperationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ViewBag.Ops = _context.OperationPrices.ToList();
+            ViewBag.AddedOp = _context.TroubleOperations.Where(x => x.TroubleId == model.TroubleId);
+            var data = new TroubleOperation()
+            {
+                OperationId = model.OperationId,
+                TroubleId = model.TroubleId,
+                Price = model.Price
+            };
+            try
+            {
+                _context.TroubleOperations.Add(data);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                
             }
             return View(model);
         }

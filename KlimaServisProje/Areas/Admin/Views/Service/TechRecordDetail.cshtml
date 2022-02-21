@@ -1,0 +1,35 @@
+﻿@using KlimaServisProje.Models.ArizaKayit
+@model TroubleOperationViewModel
+@{
+    var list = (List<OperationPrice>)ViewBag.Ops;
+    var oplist = (List<TroubleOperationViewModel>) ViewBag.AddedOp;
+}
+<div class="page-content p-6">
+    <div class="content container">
+        <div class="row">
+            <div class="col-12">
+                @if (oplist!=null)
+                {
+                    foreach (var item in oplist)
+                    {
+                        <p>@item.Price</p>
+                    }
+                }
+                
+                <div class="example ">
+                    <form method="post" asp-action="TechRecordDetail" asp-controller="Service" asp-area="Admin">
+                        <select id="optionMenu" asp-for="OperationId"
+                                asp-items="@(new SelectList(list, "operationId", "operationName"))">
+                        </select>
+                        <input type="hidden" asp-for="OperationId"/>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" asp-for="Price">
+                            <label class="form-control-label" for="formGroupExampleInput2">Fiyat</label> </div>
+                        div class="form-group">
+                        <button type="submit" class="btn btn-primary">Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
