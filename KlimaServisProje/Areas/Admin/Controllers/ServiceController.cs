@@ -27,7 +27,6 @@ namespace KlimaServisProje.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser>_userManager;
         private readonly IEmailSender _emailSender;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public ServiceController(MyContext context, IMapper mapper, UserManager<ApplicationUser> userManager, IEmailSender emailSender, SignInManager<ApplicationUser> signInManager)
         {
@@ -35,27 +34,12 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             _mapper = mapper;
             _userManager = userManager;
             _emailSender = emailSender;
-            _signInManager = signInManager;
             GetTech();
         }
-        [Authorize(Roles = "Admin")]
 
-        public IActionResult OperationList()
+        public IActionResult Services()
         {
-            var data = _context.OperationPrices.ToList();
-            var model = new List<OperationPriceViewModal>();
-            foreach (var item in data)
-            {
-                var operation = new OperationPriceViewModal()
-                {
-                    operationId = item.operationId,
-                    operationName = item.operationName,
-                    price = item.price,
-                    description = item.description
-                };
-                model.Add(operation);
-            }
-            return View(model);
+            return View();
         }
         private void GetTech()
         {
@@ -83,60 +67,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
 
             _context.SaveChanges();
         }
-        [Authorize(Roles = "Admin")]
-
-        public IActionResult Delete(int Id)
-        {
-
-            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == Id);
-            try
-            {
-                _context.OperationPrices.Remove(data);
-                _context.SaveChanges();
-                RedirectToAction("OperationList");
-            }
-            catch (Exception e)
-            {
-                
-            }
-            return RedirectToAction("OperationList");
-        }
-        [Authorize(Roles = "Admin")]
-
-        public IActionResult Add()
-        {
-            return View();
-        }
-        [Authorize(Roles = "Admin")]
-
-        [HttpPost]
-        public IActionResult Add(OperationPriceViewModal model)
-        {
-            if (!ModelState.IsValid)
-            {
-                TempData["message"] = "bir hata meydana geldi";
-                return View(model);
-            }
-
-            var data = new OperationPrice()
-            {
-                operationId = model.operationId,
-                operationName = model.operationName,
-                description = model.description,
-                price = model.price
-            };
-            var result = _context.OperationPrices.Add(data);
-            try
-            {
-                _context.SaveChanges();
-                return RedirectToAction("OperationList");
-            }
-            catch (Exception e)
-            {
-                TempData["message"] = "bir hata meydana geldi";
-                return View(model);
-            }
-        }
+        
         [Authorize(Roles = "Admin")]
 
         public IActionResult OperationDetail(int id)
@@ -151,27 +82,6 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             };
             return View(model);
         }
-        [Authorize(Roles = "Admin")]
-
-        [HttpPost]
-        public IActionResult OperationDetail(OperationPriceViewModal model)
-        {
-            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == model.operationId);
-            data.description = model.description;
-            data.operationName = model.operationName;
-            data.price = model.price;
-            try
-            {
-                _context.OperationPrices.Update(data);
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-
-            }
-            return RedirectToAction("OperationList");
-        }
-
         public List<DropdownListItems> GetTechnicians()
         {
             var model = _context.TechniciansStatus.ToList();
@@ -219,7 +129,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             tech.Status = true;
             var register = _context.TroubleRegisters.FirstOrDefault(x => x.Id == model.Id);
             register.TechnicianId = model.TechnicianId;
-            register.StartedDate = DateTime.UtcNow;
+            register.CreatedDate = DateTime.UtcNow;
             try
             {
                 _context.TechniciansStatus.Update(tech);
