@@ -39,6 +39,9 @@ namespace KlimaServisProje.Areas.Admin.Controllers
 
         public IActionResult Services()
         {
+
+            var DropList = GetTechnicians();
+            ViewBag.Techs = DropList;
             return View();
         }
         private void GetTech()
@@ -67,21 +70,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers
 
             _context.SaveChanges();
         }
-        
-        [Authorize(Roles = "Admin")]
-
-        public IActionResult OperationDetail(int id)
-        {
-            var data = _context.OperationPrices.FirstOrDefault(x => x.operationId == id);
-            var model = new OperationPriceViewModal()
-            {
-                operationId = data.operationId,
-                operationName = data.operationName,
-                description = data.description,
-                price = data.price
-            };
-            return View(model);
-        }
+ 
         public List<DropdownListItems> GetTechnicians()
         {
             var model = _context.TechniciansStatus.ToList();
@@ -98,63 +87,10 @@ namespace KlimaServisProje.Areas.Admin.Controllers
             }
             return list;
         }
-        [Authorize(Roles = "Admin,Operator")]
 
-        public IActionResult GetReports()
+        public IActionResult TroubleRegisters()
         {
-            var data = _context.TroubleRegisters.Where(x=> x.Finished == false).ToList();
-            List<TroubleRegisterViewModel> Reports = new List<TroubleRegisterViewModel>();
-            foreach (var item in data)
-            {
-                var model = _mapper.Map<TroubleRegisterViewModel>(item);
-                Reports.Add(model);
-            }
-
-            ViewBag.Teknisyenler = _context.TechniciansStatus.ToList();
-            return View(Reports);
-        }
-        [Authorize(Roles = "Admin,Operator")]
-        public IActionResult SetTechnician(int id)
-        {
-            var data = _context.TroubleRegisters.FirstOrDefault(x => x.Id == id);
-            var model = _mapper.Map<TroubleRegisterViewModel>(data);
-            ViewBag.Technician = GetTechnicians();
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SetTechnician(TroubleRegisterViewModel model)
-        {
-            var tech = _context.TechniciansStatus.FirstOrDefault(x => x.TechnicianId == model.TechnicianId);
-            tech.Status = true;
-            var register = _context.TroubleRegisters.FirstOrDefault(x => x.Id == model.Id);
-            register.TechnicianId = model.TechnicianId;
-            register.CreatedDate = DateTime.UtcNow;
-            try
-            {
-                _context.TechniciansStatus.Update(tech);
-                _context.TroubleRegisters.Update(register);
-                _context.SaveChanges();
-                var user = _userManager.Users.FirstOrDefault(x => x.Id == model.TechnicianId);
-
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Scheme);
-
-                var emailMessage = new EmailMessage()
-                {
-                    Contacts = new string[] { user.Email },
-                    Subject = "İş atandı",
-                    Body = "Üzerinize iş kitlendi"
-                };
-                await _emailSender.SendAsync(emailMessage);
-                return RedirectToAction(nameof(GetReports));
-            }
-            catch (Exception)
-            {
-
-            }
-            return View(model);
+            return View();
         }
         [Authorize(Roles = "Technician")]
         public IActionResult TechRecords()

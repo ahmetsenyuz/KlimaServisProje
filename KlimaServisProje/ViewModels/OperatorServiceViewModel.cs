@@ -7,6 +7,5 @@
         public string Type { get; set; }
         public string Description { get; set; }
         public string TechId { get; set; }
-        public string TechName { get; set; }
     }
 }

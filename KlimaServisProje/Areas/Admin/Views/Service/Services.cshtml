@@ -26,6 +26,7 @@
     <script>
         var daraGrid = null;
         $(() => {
+            var Techs = @Html.Raw(Json.Serialize(@ViewBag.Techs));
             var url = '../../../api/serviceapi';
             dataGrid = $("#dxGrid").dxDataGrid({
                 remoteOperations: { paging: true, filtering: true, sorting: true, grouping: true, summary: true, groupPaging: true },
@@ -81,28 +82,41 @@
                     {
                         caption: 'Kullanıcı',
                         dataField: "userName",
-                        allowEditing: false
+                        allowEditing: false,
+                        formItem: {
+                            visible:false
+                        }
                     },
                     {
                         caption: 'Tip',
                         dataField: "type",
-                        allowEditing: false
+                        allowEditing: false,
+                        formItem: {
+                            visible:false
+                        }
                     },
                     {
                         caption: 'Açıklama',
                         dataField: "description",
-                        allowEditing: false
+                        allowEditing: false,
+                        formItem: {
+                            visible:false
+                        }
                     },
-                    //{
+                    {
+                        dataField:"techId",
+                        caption: 'Teknisyen Ata',
+                        visible : false,
+                        lookup: {
+                            dataSource: Techs,
+                            displayExpr: "name",
+                            valueExpr: "id"
+                        },
+                        formItem: {
+                            visible: true
+                        }
                         
-                    //    dataField:"roleId",
-                    //    caption: 'Rol',
-                    //    lookup: {
-                    //        dataSource: roller,
-                    //        displayExpr: "name",
-                    //        valueExpr: "id"
-                    //    }
-                    //}
+                    }
                 ]
             }).dxDataGrid("instance");
         });
