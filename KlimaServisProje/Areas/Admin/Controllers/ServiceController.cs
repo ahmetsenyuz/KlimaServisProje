@@ -40,8 +40,8 @@ namespace KlimaServisProje.Areas.Admin.Controllers
         public IActionResult Services()
         {
 
-            var DropList = GetTechnicians();
-            ViewBag.Techs = DropList;
+            var dropList = GetTechnicians();
+            ViewBag.Techs = dropList;
             return View();
         }
         private void GetTech()
@@ -92,58 +92,44 @@ namespace KlimaServisProje.Areas.Admin.Controllers
         {
             return View();
         }
-        [Authorize(Roles = "Technician")]
-        public IActionResult TechRecords()
+
+        public IActionResult TechnicianRecords()
         {
-            var data = _context.TroubleRegisters.Where(x => x.Technician.UserName == User.Identity.Name).ToList();
-            var model = _mapper.Map<List<TroubleRegisterViewModel>>(data);
-            return View(model);
+            return View();
         }
 
-        [Authorize(Roles = "Technician")]
-        public IActionResult TechRecordDetail(int Id)
+        public IActionResult TechnicianService()
         {
-            var model = new TroubleOperationViewModel()
+            var data = _context.OperationPrices.ToList();
+            List<DropdownListInt> ops = new List<DropdownListInt>();
+            foreach (var item in data)
             {
-                TroubleId = Id
-            };
-            ViewBag.Ops = _context.OperationPrices.ToList();
-            var FinishedOps = _context.TroubleOperations.Where(x => x.TroubleId == Id).ToList();
-            var FinishedOpsView = new List<DropdownListInt>();
-            foreach (var item in FinishedOps)
-            {
-                var op = _context.OperationPrices.FirstOrDefault(x => x.operationId == item.OperationId);
-                FinishedOpsView.Add(new DropdownListInt()
+                var op = _context.OperationPrices.FirstOrDefault(x => x.operationId == item.operationId);
+                ops.Add(new DropdownListInt()
                 {
                     Id = op.operationId,
                     Name = op.operationName
                 });
-            }
-
-            ViewBag.AddedOp = FinishedOpsView;
+            };
+            var user = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var reg = _context.TroubleRegisters.FirstOrDefault(x => x.TechnicianId == user.Id && x.Finished == false);
+            var model = _mapper.Map<TroubleRegisterViewModel>(reg);
+            ViewBag.Ops = ops;
             return View(model);
         }
-        [Authorize(Roles = "Technician")]
         [HttpPost]
-        public IActionResult TechRecordDetail(TroubleOperationViewModel model)
+        public async Task<IActionResult> TechnicianService(TroubleRegisterViewModel model)
         {
-            var data = new TroubleOperation()
-            {
-                TroubleId = model.TroubleId,
-                OperationId = model.OperationId,
-                Price = model.Price
-            };
-            try
-            {
-                _context.TroubleOperations.Add(data);
-                _context.SaveChanges();
-                return RedirectToAction("TechRecords");
-            }
-            catch (Exception e)
-            {
-            }
-            return View(model);
-
+            var data = _context.TroubleRegisters.FirstOrDefault(x => x.Id == model.Id);
+            data.Finished = true;
+            data.FinishedDate = DateTime.UtcNow;
+            var techstat = _context.TechniciansStatus.FirstOrDefault(x => x.TechnicianId == data.TechnicianId);
+            techstat.Status = false;
+            _context.TroubleRegisters.Update(data);
+            var result1 = await _context.SaveChangesAsync();
+            _context.TechniciansStatus.Update(techstat);
+            var result2 = _context.SaveChangesAsync();
+            return RedirectToAction(nameof(TechnicianRecords));
         }
 
     }

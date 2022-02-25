@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DevExtreme.AspNet.Data;
 using KlimaServisProje.Core.ViewModels;
@@ -25,6 +26,8 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
         public IActionResult Get(DataSourceLoadOptions loadOptions)
         {
             var model = _myContext.OperationPrices;
+            if (!TryValidateModel(model))
+                return BadRequest(ModelState.ToFullErrorString());
             return Ok(DataSourceLoader.Load(model, loadOptions));
         }
 
@@ -51,8 +54,21 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
         public async Task<IActionResult> Delete(string key)
         {
             var data = _myContext.OperationPrices.FirstOrDefault(x => x.operationId.ToString() == key);
-            var result = _myContext.OperationPrices.Remove(data);
-            await _myContext.SaveChangesAsync();
+            if (data == null)
+                return StatusCode(StatusCodes.Status409Conflict, new JsonResponseViewModel()
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "İşlem Bulunamadı"
+                });
+            try
+            {
+                var result = _myContext.OperationPrices.Remove(data);
+                await _myContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{data.operationName} Silinirken Bir Hata oluştu: {e.Message}");
+            }
             return Ok(new JsonResponseViewModel());
         }
 
@@ -61,8 +77,17 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
         {
             var newOp = new OperationPrice();
             JsonConvert.PopulateObject(values,newOp);
-            var result =_myContext.OperationPrices.AddAsync(newOp);
-            await _myContext.SaveChangesAsync();
+            if (!TryValidateModel(newOp))
+                return BadRequest(ModelState.ToFullErrorString());
+            try
+            {
+                var result = _myContext.OperationPrices.AddAsync(newOp);
+                await _myContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{newOp.operationName} Eklenirken Bir Hata oluştu: {e.Message}");
+            }
             return Ok(new JsonResponseViewModel());
         }
     }

@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DevExtreme.AspNet.Data;
+﻿using DevExtreme.AspNet.Data;
 using KlimaServisProje.Data;
 using KlimaServisProje.Extensions;
 using KlimaServisProje.Models.Identity;
 using KlimaServisProje.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KlimaServisProje.Areas.Admin.Controllers.Apis
 {
@@ -46,7 +45,6 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
                         Name = "Teknisyen",
                         Surname = "Atanmamış"
                     };
-
                 }
                 model.Add(new AdminServiceViewModel()
                 {

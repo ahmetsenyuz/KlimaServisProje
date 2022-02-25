@@ -32,12 +32,12 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
         [HttpGet]
         public IActionResult Get(DataSourceLoadOptions loadOptions)
         {
-            var model = getUsersWithRoles();
+            var model = GetUsersWithRoles();
 
             return Ok(DataSourceLoader.Load(model, loadOptions));
         }
 
-        private List<UserRolesViewModel> getUsersWithRoles()
+        private List<UserRolesViewModel> GetUsersWithRoles()
         {
             var data = _userManager.Users.ToList();
             var model = new List<UserRolesViewModel>();
@@ -63,10 +63,12 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
         [HttpPut]
         public async Task<IActionResult> Update(string key, string values)
         {
-            var model = getUsersWithRoles();
+            var model = GetUsersWithRoles();
             var data = model.FirstOrDefault(x => x.UserId == key);
             var eskirole = _roleManager.Roles.FirstOrDefault(x => x.Id == data.RoleId);
             JsonConvert.PopulateObject(values,data);
+            if (!TryValidateModel(data))
+                return BadRequest(ModelState.ToFullErrorString());
             var user = _myContext.Users.FirstOrDefault(x => x.Id == data.UserId);
             user.Name = data.Name;
             user.Surname = data.Surname;
@@ -79,7 +81,14 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
                 var result2 = await _userManager.AddToRoleAsync(user, yenirole.Name);
             }
 
-            var result = await _userManager.UpdateAsync(user);
+            try
+            {
+                var result = await _userManager.UpdateAsync(user);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             return Ok(new JsonResponseViewModel());
         }
 
@@ -97,12 +106,12 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
             {
                 _myContext.Users.Remove(data);
                 _myContext.SaveChanges();
-                return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                return BadRequest(e.Message);
             }
-            return BadRequest();
+            return Ok(new JsonResponseViewModel());
         }
     }
 }
