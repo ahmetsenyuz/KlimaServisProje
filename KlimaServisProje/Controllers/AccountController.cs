@@ -135,20 +135,16 @@ namespace KlimaServisProje.Controllers
 
                 if (_userManager.IsInRoleAsync(user, "Admin").Result)
                 {
-                    //var url = Url.Action("Index", "Manage", new { Areas = "Admin" });
-                    //return RedirectToRoute("admin/manage");
-                    //return RedirectToAction(""Manage", new { Areas = "admin" });
                     return LocalRedirect("/admin/manage/users");
                 }
                 else if (_userManager.IsInRoleAsync(user, "Operator").Result)
                 {
-                    return LocalRedirect("/admin/service/getreports");
+                    return LocalRedirect("/admin/service/services");
 
                 }
                 else if (_userManager.IsInRoleAsync(user, "Technician").Result)
                 {
-                    return LocalRedirect("/admin/service/techrecords");
-
+                    return LocalRedirect("/admin/service/technicianservice");
                 }
                 else
                     return RedirectToAction("Index", "Home");

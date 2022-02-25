@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace KlimaServisProje.Areas.Admin.Controllers.Apis
@@ -102,13 +103,16 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
                 return BadRequest(ModelState.ToFullErrorString());
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Scheme);
+            var callbackUrl = Url.Action("TechnicianService", "Service", new
+            {
+                Area = "Admin"
+            }, protocol: Request.Scheme);
 
             var emailMessage = new EmailMessage()
             {
                 Contacts = new string[] { user.Email },
                 Subject = "İş atandı",
-                Body = "Üzerinize iş kitlendi"
+                Body = $"Lünfen Linke Tıklayarak Mevcut işinize bakınız <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Buraya Tıkla</a>"
             };
             await _emailSender.SendAsync(emailMessage);
             return Ok(new JsonResponseViewModel());

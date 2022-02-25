@@ -10,11 +10,17 @@ namespace KlimaServisProje.ViewModels
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        [StringLength(50,ErrorMessage = "50 karakterden kısa giriniz.")]
         public string ACModel { get; set; }
+        [StringLength(50, ErrorMessage = "50 karakterden kısa giriniz.")]
         public string ACType { get; set; }
-        public int Capacity { get; set; } = 9999999;
+        [Range(0, 50000, ErrorMessage = "Lütfen Geçerli Bir Sayı Giriniz!")]
+        public int Capacity { get; set; } = 0;
+        [StringLength(10, ErrorMessage = "10 karakterden kısa giriniz.")]
         public string GasType { get; set; }
+        [StringLength(450, ErrorMessage = "450 karakterden kısa giriniz.")]
         public string Description { get; set; }
+        [StringLength(100, ErrorMessage = "100 karakterden kısa giriniz.")]
         public string Address { get; set; }
         public bool FeeStatus { get; set; } = false;
         public string TechnicianId { get; set; }

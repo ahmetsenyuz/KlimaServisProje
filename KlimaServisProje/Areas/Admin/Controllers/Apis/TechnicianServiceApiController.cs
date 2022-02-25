@@ -36,7 +36,7 @@ namespace KlimaServisProje.Areas.Admin.Controllers.Apis
             var service = _context.TroubleOperations?.Where(x => x.TroubleId == regis.Id).ToList();
             if (service.Count() == 0)
             {
-                return BadRequest("Üzerinize Servis Kayıt Bulunamadı");
+                return BadRequest($"{regis.Id} Numaralı Kayda Herhangi Bir İşlem Girilmedi!");
             }
             var model = new List<TroubleOperationViewModel>();
             foreach (var item in service)
