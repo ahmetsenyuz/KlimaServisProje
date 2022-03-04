@@ -33,6 +33,24 @@
                         <li class="page-scroll"><a asp-controller="TroubleRegister" asp-action="Reports">Raporlarım</a></li>
 
                         <li class="page-scroll"><a asp-controller="account" asp-action="profile">Profil</a></li>
+                        if (Context.User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a asp-area="Admin" asp-controller="Manage" asp-action="Users" class="page-scroll">Panele Git</a>
+                            </li>
+                        }
+                        if (Context.User.IsInRole("Technician"))
+                        {
+                            <li>
+                                <a asp-area="Admin" asp-controller="Service" asp-action="TechnicianService" class="page-scroll">Panele Git</a>
+                            </li>
+                        }
+                        if (Context.User.IsInRole("Operator"))
+                        {
+                            <li>
+                                <a asp-area="Admin" asp-controller="Service" asp-action="Services" class="page-scroll">Panele Git</a>
+                            </li>
+                        }
                         <li>
                             <a asp-controller="account" asp-action="logout" class="page-scroll">Çıkış Yap</a>
                         </li>

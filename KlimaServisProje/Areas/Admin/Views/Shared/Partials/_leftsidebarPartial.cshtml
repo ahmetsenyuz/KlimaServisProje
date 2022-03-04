@@ -1,0 +1,97 @@
+﻿@inject SignInManager<ApplicationUser> _signInManager
+@inject UserManager<ApplicationUser> _userManager
+@{
+    var signedinUser = _userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+}
+<aside id="leftsidebar" class="sidebar">
+    <!-- User Info -->
+
+    <div class="user-info">
+        <div class="image">
+            <img src="~/admin-assets/images/user.png" width="48" height="48" alt="User" />
+        </div>
+        <div class="info-container">
+            <div style="font-size: 18px" class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@signedinUser.Name @signedinUser.Surname</div>
+            <div style="font-size: 14px" class="email">@signedinUser.Email</div>
+        </div>
+    </div>
+    <!-- #User Info -->
+    <!-- Menu -->
+    <div class="menu">
+        <ul class="list">
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="header">MAIN NAVIGATION</li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Manage" asp-action="Users">
+                        <i class="material-icons">home</i>
+                        <span>Kayıtlı Kullanıcılar</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Manage" asp-action="Operations">
+                        <i class="material-icons">layers</i>
+                        <span>İşlemleri Yönet</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="TroubleRegisters">
+                        <i class="material-icons">layers</i>
+                        <span>Tüm Servis Kayıtları</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Operator"))
+            {
+                <li class="header">MAIN NAVIGATION</li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="Services">
+                        <i class="material-icons">home</i>
+                        <span>Teknisyen Ata</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Technician"))
+            {
+
+                <li class="header">MAIN NAVIGATION</li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="TechnicianService">
+                        <i class="material-icons">home</i>
+                        <span>Güncel Servisim</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="TechnicianRecords">
+                        <i class="material-icons">layers</i>
+                        <span>Tüm Servislerim</span>
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-controller="Account" asp-action="Profile">
+                    <i class="material-icons">layers</i>
+                    <span>Profilim</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Logout">
+                    <i class="material-icons">layers</i>
+                    <span>Çıkış Yap</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- #Menu -->
+    <!-- Footer -->
+    <div class="legal">
+        <div class="copyright">
+            &copy; 2022 - 20-- <a href="javascript:void(0);">Klima Servis - Admin Paneli</a>.
+        </div>
+        <div class="version">
+            <b>Version: </b> 1.0.0
+        </div>
+    </div>
+    <!-- #Footer -->
+</aside>

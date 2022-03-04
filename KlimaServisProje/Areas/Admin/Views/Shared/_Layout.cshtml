@@ -3,96 +3,94 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <title>Project Dashboard</title>
     <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <link rel="shortcut icon" type="image/x-icon" href="~/admin-assets/favicon.ico" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic" rel="stylesheet">
+    <!-- Bootstrap Core Css -->
+    <link href="~/admin-assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
 
-    <!-- STYLESHEETS -->
-    <style type="text/css">
-        [fuse-cloak],
-        .fuse-cloak {
-            display: none !important;
-        }
-    </style>
+    <!-- Waves Effect Css -->
+    <link href="~/admin-assets/plugins/node-waves/waves.css" rel="stylesheet" />
 
-    <!-- Icons.css -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/icons/fuse-icon-font/style.css">
-    <!-- Animate.css -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/node_modules/animate.css/animate.min.css">
-    <!-- PNotify -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/node_modules/pnotify/dist/PNotifyBrightTheme.css">
-    <!-- Nvd3 - D3 Charts -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/node_modules/nvd3/build/nv.d3.min.css" />
-    <!-- Perfect Scrollbar -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" />
-    <!-- Fuse Html -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/fuse-html/fuse-html.min.css" />
-    <!-- Main CSS -->
-    <link type="text/css" rel="stylesheet" href="~/admin-assets/css/main.css">
-    <!-- / STYLESHEETS -->
+    <!-- Animation Css -->
+    <link href="~/admin-assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link href="~/admin-assets/plugins/morrisjs/morris.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="~/admin-assets/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/admin-assets/css/themes/theme-deep-orange.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/vendor/devextreme/dist/css/dx.material.orange.light.css">
-    @await RenderSectionAsync("Styles",false)
-    
+    @await RenderSectionAsync("Styles",required:false)
+
 </head>
-<body class="layout layout-vertical layout-left-navigation layout-above-toolbar layout-above-footer">
-<partial name="Partials/_toolbarPartial" />
-<partial name="Partials/_asidePartial" />
-@RenderBody()
-<!-- JAVASCRIPT -->
-<!-- jQuery -->
-<script type="text/javascript" src="~/admin-assets/node_modules/jquery/dist/jquery.min.js"></script>
-<!-- Mobile Detect -->
-<script type="text/javascript" src="~/admin-assets/node_modules/mobile-detect/mobile-detect.min.js"></script>
-<!-- Perfect Scrollbar -->
-<script type="text/javascript" src="~/admin-assets/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-<!-- Popper.js -->
-<script type="text/javascript" src="~/admin-assets/node_modules/popper.js/dist/umd/popper.min.js"></script>
-<!-- Bootstrap -->
-<script type="text/javascript" src="~/admin-assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Nvd3 - D3 Charts -->
-<script type="text/javascript" src="~/admin-assets/node_modules/d3/d3.min.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/nvd3/build/nv.d3.min.js"></script>
-<!-- Data tables -->
-<script type="text/javascript" src="~/admin-assets/node_modules/datatables.net/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/datatables-responsive/js/dataTables.responsive.js"></script>
-<!-- PNotify -->
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotify.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyStyleMaterial.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyButtons.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyCallbacks.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyMobile.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyHistory.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyDesktop.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyConfirm.js"></script>
-<script type="text/javascript" src="~/admin-assets/node_modules/pnotify/dist/iife/PNotifyReference.js"></script>
-<!-- Fuse Html -->
-<script type="text/javascript" src="~/admin-assets/fuse-html/fuse-html.min.js"></script>
-<!-- Main JS -->
-<script type="text/javascript" src="~/admin-assets/js/main.js"></script>
+<body class="theme-deep-orange">
+<partial name="Partials/_preloaderPartial"/>
+<partial name="Partials/_headerPartial"/>
+<section>
+    <partial name="Partials/_leftsidebarPartial"/>
+    @*<partial name="Partials/_rightsidebarPartial"/>*@
+</section>
+<div>
+    @RenderBody()
+</div>
+<!-- Jquery Core Js -->
+<script src="~/admin-assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="~/admin-assets/plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Select Plugin Js -->
+<script src="~/admin-assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+<!-- Slimscroll Plugin Js -->
+<script src="~/admin-assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="~/admin-assets/plugins/node-waves/waves.js"></script>
+
+<!-- Jquery CountTo Plugin Js -->
+<script src="~/admin-assets/plugins/jquery-countto/jquery.countTo.js"></script>
+
+<!-- Morris Plugin Js -->
+<script src="~/admin-assets/plugins/raphael/raphael.min.js"></script>
+<script src="~/admin-assets/plugins/morrisjs/morris.js"></script>
+
+<!-- ChartJs -->
+<script src="~/admin-assets/plugins/chartjs/Chart.bundle.js"></script>
+
+<!-- Flot Charts Plugin Js -->
+<script src="~/admin-assets/plugins/flot-charts/jquery.flot.js"></script>
+<script src="~/admin-assets/plugins/flot-charts/jquery.flot.resize.js"></script>
+<script src="~/admin-assets/plugins/flot-charts/jquery.flot.pie.js"></script>
+<script src="~/admin-assets/plugins/flot-charts/jquery.flot.categories.js"></script>
+<script src="~/admin-assets/plugins/flot-charts/jquery.flot.time.js"></script>
+
+<!-- Sparkline Chart Plugin Js -->
+<script src="~/admin-assets/plugins/jquery-sparkline/jquery.sparkline.js"></script>
+
+<!-- Custom Js -->
+<script src="~/admin-assets/js/admin.js"></script>
+<script src="~/admin-assets/js/pages/index.js"></script>
+
+<!-- Demo Js -->
+<script src="~/admin-assets/js/demo.js"></script>
 <script type="text/javascript" src="~/vendor/exceljs/dist/exceljs.min.js"></script>
 <script type="text/javascript" src="~/vendor/file-saver/dist/fileSaver.min.js"></script>
 <script type="text/javascript" src="~/vendor/jszip/dist/jszip.min.js"></script>
 <script type="text/javascript" src="~/vendor/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="~/vendor/devextreme/dist/js/dx.all.js"></script>
-<!-- / JAVASCRIPT -->
-@await RenderSectionAsync("Scripts", false)
-
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-@section Styles{
-    <style>
-        html {
-            height: 100%;
-            margin: auto;
-            width: 960px;
-            overflow: scroll;
-            position: fixed;
-        }
-    </style>
-}
